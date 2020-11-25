@@ -1,0 +1,9 @@
+<h1> LOG IN</h1>
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+<form method="POST">
+    <p><input type="text" name="username" /></p>
+    <p><input type="text" name="password" /></p>
+    <input type="submit" />
+</form>

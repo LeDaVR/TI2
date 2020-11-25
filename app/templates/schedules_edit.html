@@ -1,0 +1,5 @@
+<h1>HORARIO</h1>
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+<li><a href="{{ url_for('logout') }}">Log Out</a>
