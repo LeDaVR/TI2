@@ -240,25 +240,25 @@ RESPONSE
 
 .. code-block:: js
 
-        [
-	  {
-	    "gru_ide": 9,
-	    "gru_nom": "A",
-	    "gru_tur": "Mañana",
-	    "sil_ide": 27
-	  },
-	  {
-	    "gru_ide": 10,
-	    "gru_nom": "B",
-	    "gru_tur": "Tarde",
-	    "sil_ide": 27
-	  },
-	  {
-	    "gru_ide": 11,
-	    "gru_nom": "C",
-	    "gru_tur": "Mañana",
-	    "sil_ide": 27
-	  }
+	[
+		  {
+		    "gru_ide": 9,
+		    "gru_nom": "A",
+		    "gru_tur": "Mañana",
+		    "sil_ide": 27
+		  },
+		  {
+		    "gru_ide": 10,
+		    "gru_nom": "B",
+		    "gru_tur": "Tarde",
+		    "sil_ide": 27
+		  },
+		  {
+		    "gru_ide": 11,
+		    "gru_nom": "C",
+		    "gru_tur": "Mañana",
+		    "sil_ide": 27
+		  }
 	]
 
 
