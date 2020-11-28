@@ -74,13 +74,17 @@ INSERT INTO grupo(gru_ide,gru_nom,sil_ide) VALUES
 
 INSERT INTO silabo_docente(sil_doc_ide,tipo_clase,horas,doc_ide,sil_ide,gru_ide) VALUES
 (1,"Practica",2,1,1,1),
-(2,"Teoria",2,19,24,2),
-(3,"Teoria",2,19,26,3);
+(2,"Teoría",2,19,24,2),
+(3,"Teoría",2,19,26,3);
 
-INSERT INTO horario(hor_ide,hora_entrada,hora_salida,aula,sil_doc_ide,dia) VALUES
-(1,"07:00:00","08:40:00","Aula 205",1,"Lunes"),
-(2,"07:00:00","08:40:00","Aula 305",2,"Miercoles"),
-(3,"08:50:00","10:30:00","Aula 305",3,"Miercoles");
+INSERT INTO aula(aul_ide,tipo,aul_num,aul_ava) VALUES
+(1,'Aula',205,true),
+(2,'Aula',105,true);
+
+INSERT INTO horario(hor_ide,hora_entrada,hora_salida,aul_ide,sil_doc_ide,dia) VALUES
+(1,"07:00:00","08:40:00",1,1,"Lunes"),
+(2,"07:00:00","08:40:00",1,2,"Miercoles"),
+(3,"08:50:00","10:30:00",1,3,"Miercoles");
 
 insert into usuario values
 (1,'docente1','contrasenia1',1),
@@ -88,3 +92,5 @@ insert into usuario values
 
 
 update silabo set sil_per_aca =  1; 
+update curso set cur_hor_teo = 2, cur_hora_pra = 2,  cur_hor_lab = 2;
+update silabo set sil_per_aca = "2020-B";

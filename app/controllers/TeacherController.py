@@ -16,30 +16,46 @@ class TeacherController:
     def __init__(self,app):
         self.model = TeacherModel(app)
 
-        @app.route('/teacher_edit')
-        def edit():
-            print(session)
-            if session['user_id'] != None:
-                data = self.model.courses(session['user_id'])
-                flash(data)
-                return render_template('schedules_edit.html')
-            else:
-                redirect(url_for('login'))
-        
+        @app.route('/teacher_schedule/<id>',methods=['POST'])
+        def teacher_schedule(id):
+            params = {
+                'id' : id
+            } 
+            return self.model.teacher_schedule(params)
 
         @app.route('/assign_teacher',methods=['POST'])
         def assign_teacher():
-            doc_ide = request.json['doc_ide']
-            sil_ide = request.json['sil_ide']
-            gru_ide = request.json['gru_ide']
-            tipo_clase = request.json['tipo_clase']
-            horas = request.json['horas']
-
-            if self.model.can_be_assigned(doc_ide,horas):
-                return jsonify(self.model.assign_teacher(tipo_clase,horas, gru_ide,doc_ide,sil_ide ) )
+            params = {
+                'doc_ide' : request.json['doc_ide'],
+                'sil_ide' : request.json['sil_ide'],
+                'gru_ide' : request.json['gru_ide'],
+                'tipo_clase' : request.json['tipo_clase'],
+                'horas' : request.json['horas']
+            }
+                
+            if self.model.can_be_assigned(params):
+                return jsonify(self.model.assign_teacher( params ) )
             else:
-                return jsonify({ 'status' : 'hours_limit_exceded' })
+                return jsonify({ 'status' : 'no se puede asignar' })
+        
+        @app.route('/unassign_teacher',methods=['POST'])
+        def unassign_teacher():
+            params = {
+                'sil_doc_ide' : request.json['sil_doc_ide']
+            }
+                
+            return jsonify(self.model.unassign( params ) )
 
-        @app.route('/register_teacher',methods=['POST'])
+
+        @app.route('/register_teacher', methods=['POST'])
         def register_teacher():
-            return 1
+            params = {
+                'nombre' : request.json['nombre'],
+                'ape_mat' : request.json['ape_mat'],
+                'ape_pat' : request.json['ape_pat'],
+                'grad_aca' : request.json['grad_aca'],
+                'doc_esp' : request.json['doc_esp'],
+                'cat_ide' : request.json['cat_ide'],
+                'dep_ide' : request.json['dep_ide']
+            }
+            return self.model.register(params)

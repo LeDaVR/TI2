@@ -113,7 +113,7 @@ CREATE TABLE silabo(
 	sil_ide INT PRIMARY KEY AUTO_INCREMENT,
     sil_sem INT,
     sil_inst_eva INT,
-    sil_per_aca INT,
+    sil_per_aca varchar(6),
     sil_fun VARCHAR(100),
     sil_sum VARCHAR(100),
     sil_req_apr VARCHAR(100),
@@ -199,6 +199,7 @@ CREATE TABLE docente(
 CREATE TABLE grupo(
     gru_ide INT PRIMARY KEY AUTO_INCREMENT,
     gru_nom VARCHAR(2),
+    gru_tur VARCHAR(10),
     sil_ide INT,
     FOREIGN KEY (sil_ide) REFERENCES silabo(sil_ide)
 );
@@ -215,15 +216,25 @@ CREATE TABLE silabo_docente(
     FOREIGN KEY (gru_ide) REFERENCES grupo(gru_ide)
 );
 
+CREATE TABLE aula(
+    aul_ide INT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(30),
+    aul_num INT,
+    aul_ava  BOOLEAN
+);
+
 CREATE TABLE horario(
 	hor_ide INT PRIMARY KEY AUTO_INCREMENT,
     hora_entrada time,
     hora_salida time,
-    aula VARCHAR(50),
     dia VARCHAR(15),
+    aul_ide INT,
     sil_doc_ide INT,
-    FOREIGN KEY (sil_doc_ide) REFERENCES silabo_docente(sil_doc_ide)
+    FOREIGN KEY (aul_ide) REFERENCES aula(aul_ide),
+    CONSTRAINT FOREIGN KEY (sil_doc_ide) REFERENCES silabo_docente(sil_doc_ide) ON DELETE CASCADE
 );
+
+
 
 CREATE TABLE usuario(
 	usu_ide INT PRIMARY KEY AUTO_INCREMENT,

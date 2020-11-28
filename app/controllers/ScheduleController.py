@@ -16,30 +16,40 @@ class ScheduleController:
     def __init__(self,app):
         self.model = ScheduleModel(app)
 
-        @app.route('/show_schedule', methods=('GET', 'POST'))
-        def show():
-            data = self.model.horario("1")
-            flash(data)
-            return render_template('schedules.html')
-        
+        @app.route('/get_schedule/<per_aca>', methods=['POST'] )
+        def get_schedule(per_aca):
+            params = {
+                'sil_per_aca' : per_aca
+            }
+            return self.model.get_schedule(params)
+
+        @app.route('/create_group', methods=['POST'] )
+        def create_group():
+            params = {
+                "cantidad" : request.json['cantidad'],
+                "sil_ide" : request.json['sil_ide']
+            }
+            return self.model.create_group(params)
 
         @app.route('/create_schedule',methods=['POST'])
         def create_schedule():
-            hora_entrada =  request.json['hora_entrada']
-            hora_salida = request.json['hora_salida']
-            aula = request.json['aula']
-            dia = request.json['dia']
-            sil_doc_ide =  request.json['sil_doc_ide']
-            if self.model.can_insert(hora_entrada,hora_salida,dia,aula.sil_doc_ide):
-                return jsonify({ 'status' : 'disponible'})  
-                #return jsonify(self.model.create_schedule(hora_entrada,hora_salida,hora,dia,sil_doc_ide))
+            params = {
+                'hora_entrada' :  request.json['hora_entrada'],
+                'hora_salida' : request.json['hora_salida'],
+                'aul_ide' : request.json['aul_ide'],
+                'dia' : request.json['dia'],
+                'sil_doc_ide' :  request.json['sil_doc_ide']
+            }
+            
+            if self.model.can_insert(params):
+                return self.model.create_schedule(params)
             else:
                 return jsonify({ 'status' : 'no_disponible'})        
 
-        @app.route('/delete_schedule',methods=['POST'])
+        @app.route('/delete_schedule', methods=['POST'])
         def delete_schedule():
-            return 1
+            params = {
+                'hor_ide' : request.json['hor_ide']
+            }
+            return self.model.remove(params)
 
-        @app.route('/update_schedule',methods=['POST'])
-        def update_schedule():
-            return 1

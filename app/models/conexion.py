@@ -13,5 +13,6 @@ class Conexion:
         self.mysql.init_app(app)
         self.conn = self.mysql.connect()
         self.cursor = self.conn.cursor()
+        print("conecto")
 
     

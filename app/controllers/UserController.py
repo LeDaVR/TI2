@@ -18,32 +18,24 @@ class UserController:
 
         @app.route('/login', methods=['POST'])
         def login():
-            if request.method == 'POST':
-                username = request.form['username']
-                password = request.form['password']
-                
-                error = None
-                user = self.model.login(username)
-                if user is None:
-                    error = 'Incorrect username.'
-                elif not user['usu_pass'] ==  password:
-                    error = 'Incorrect password.'
+            params = {
+                'user' : request.json['user'],
+                'password' : request.json['password']
+            }
 
-                if error is None:
-                    session.clear()
-                    session['user_id'] = user['doc_ide']
-                    return redirect(url_for('edit'))
-                
-                flash(error)
-
-            return render_template('login.html')
+            return self.model.login(params)
         
         @app.route('/logout')
         def logout():
             session.clear()
             return redirect(url_for('login'))
         
-        @app.route('/register_user',methods=['POST'])
+        @app.route('/register_user', methods=['GET', 'POST'])
         def register_user():
-            return 1
+            params = {
+                'user' : request.json['user'],
+                'password' : request.json['password'],
+                'doc_ide' : request.json['doc_ide']
+            }
+            return self.model.register(params)
 
