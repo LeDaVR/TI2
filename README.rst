@@ -12,11 +12,8 @@ Permite registar un docente en la base de datos
 
 .. code-block:: text
 	
-	/register_teacher
+	POST /register_teacher
 
-
-POST 
-+++++++++++
 
 ==============   ===============
 Param            Description
@@ -30,6 +27,8 @@ cat_ide          Identificador de la categoria del docente
 dep_ide          Identificador del departamento académico
 ==============   ===============
 
+POST 
++++++++++++
 
 REQUEST
 ~~~~~~~~~~~~~~~
