@@ -2,32 +2,19 @@
 REST API Documentation
 ========================
 
-Services 
-----------
-
-
 
 Registrar Docente
 ~~~~~~~~~~~~~~~
 
-.. code-block:: text
+Permite registar un docente en la base de datos
 
-    /register_teacher
-    
+.. code-block:: text
+	
+	/register_teacher
+
+
 POST 
 ++++++
-
-Crea un nuevo docente y retorna el docente creado.
-
-{
-	"nombre" : "Juan Carlos",
-	"ape_mat" : "Zuñiga",
-	"ape_pat" : "Quinto",
-	"grad_aca" : "Grado academico",
-	"doc_esp"  : "especialidad",
-	"cat_ide" : 1,
-	"dep_ide" : 1
-}
 
 ==============   ===============
 Param            Description
@@ -42,6 +29,7 @@ dep_ide          Identificador del departamento académico
 ==============   ===============
 
 REQUEST
+
 .. code-block:: js
 
         {
@@ -53,8 +41,10 @@ REQUEST
             "cat_ide" : 1,
             "dep_ide" : 1
         }
-   
+
+
 RESPONSE
+
 .. code-block:: js
 
         {
