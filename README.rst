@@ -31,6 +31,7 @@ dep_ide          Identificador del departamento académico
 ==============   ===============
 
 .. code-block:: text
+
 	REQUEST
 
 .. code-block:: js
@@ -47,6 +48,7 @@ dep_ide          Identificador del departamento académico
 
 
 .. code-block:: text
+
 	RESPONSE
 
 .. code-block:: js
