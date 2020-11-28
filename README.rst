@@ -1,9 +1,11 @@
 
-# REST API Documentation
-
+========================
+REST API Documentation
+========================
 
 
 Registrar Docente
+----------
 
 
 Permite registar un docente en la base de datos
@@ -14,7 +16,7 @@ Permite registar un docente en la base de datos
 
 
 POST 
-++++++
++++++++++++
 
 ==============   ===============
 Param            Description
