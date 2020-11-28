@@ -30,7 +30,8 @@ cat_ide          Identificador de la categoria del docente
 dep_ide          Identificador del departamento académico
 ==============   ===============
 
-REQUEST
+.. code-block:: text
+	REQUEST
 
 .. code-block:: js
 
@@ -45,7 +46,8 @@ REQUEST
         }
 
 
-RESPONSE
+.. code-block:: text
+	RESPONSE
 
 .. code-block:: js
 
