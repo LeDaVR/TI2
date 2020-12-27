@@ -83,15 +83,15 @@ class ScheduleController:
         def aulas():
             return self.model.getAulas()
 
-        @app.route('/excel_horario',methods=['POST'])
+        @app.route('/excel_horario',methods=['GET'])
         def excel():
             return self.model.export_excel()
 
-        @app.route('/html_horario',methods=['POST'])
+        @app.route('/html_horario',methods=['GET'])
         def html():
             return self.model.export_html()
         
-        @app.route('/latex_horario',methods=['POST'])
+        @app.route('/latex_horario',methods=['GET'])
         def latex():
             return self.model.export_latex()
 

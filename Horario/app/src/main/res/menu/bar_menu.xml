@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Logout"
+        android:id="@+id/logout"
+        app:showAsAction="never"/>
+    <item android:title="Exportar a"
+        app:showAsAction="never">
+        <menu >
+            <item android:title="Excel"
+                android:id="@+id/excel"
+                app:showAsAction="never"/>
+            <item android:title="Pdf"
+                android:id="@+id/Pdf"
+                app:showAsAction="never"/>
+            <item android:title="Html"
+                android:id="@+id/Html"
+                app:showAsAction="never"/>
+
+        </menu>
+    </item>
+</menu>

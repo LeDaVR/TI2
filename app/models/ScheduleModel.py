@@ -504,40 +504,9 @@ class ScheduleModel:
         return send_file(output, attachment_filename="horario.xlsx", as_attachment=True)
     
     def export_html(self):
-        aulas = self.getAulas().json
-        params = {
-            "sil_per_aca" : "2020-B",
-        }
+        html = self.htmlstring()
 
         output = BytesIO()
-
-        html = ""
-        for i in aulas:
-            params['aul_ide'] = i['aul_ide']
-            params['aul_nom'] = i['aul_nom']
-            html += "<p1>"+params['aul_nom']+"</p1>"
-
-            columnas = ["HORAS","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES"]
-            
-            datos = self.get_schedule(params).json
-
-            info = self.horario_array(datos)
-            index = self.horario_index(datos)
-
-            new_info = []
-            for i in range(len(index)):
-                line = [index[i]]
-                for j in range(len(info[i])):
-                    line += [info[i][j]]
-                new_info += [line]
-            
-            df_1 = pd.DataFrame(new_info, columns=columnas)
-            table = build_table(df_1,'grey_dark',text_align = 'center')
-            
-            html += "<div>"
-            html += table
-            html += "</div>"
-
         output.write(html.encode('utf-8'))
 
         output.seek(0)
@@ -545,40 +514,9 @@ class ScheduleModel:
         return send_file(output , attachment_filename="horario.html", as_attachment=True)
 
     def export_pdf(self):
-        aulas = self.getAulas().json
-        params = {
-            "sil_per_aca" : "2020-B",
-        }
+        html = self.htmlstring()
 
         output = BytesIO()
-
-        html = ""
-        for i in aulas:
-            params['aul_ide'] = i['aul_ide']
-            params['aul_nom'] = i['aul_nom']
-            html += "<p1>"+params['aul_nom']+"</p1>"
-
-            columnas = ["HORAS","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES"]
-            
-            datos = self.get_schedule(params).json
-
-            info = self.horario_array(datos)
-            index = self.horario_index(datos)
-
-            new_info = []
-            for i in range(len(index)):
-                line = [index[i]]
-                for j in range(len(info[i])):
-                    line += [info[i][j]]
-                new_info += [line]
-            
-            df_1 = pd.DataFrame(new_info, columns=columnas)
-            table = build_table(df_1,'grey_dark',text_align = 'center')
-            
-            html += "<div>"
-            html += table
-            html += "</div>"
-
         html.encode('utf-8')
         pdf = pdfkit.from_string(html ,False)
         output.write(pdf)
@@ -622,4 +560,79 @@ class ScheduleModel:
 
         return send_file(output , attachment_filename="horario.html", as_attachment=True)
 
-        
+    def htmlstring(self):
+        aulas = self.getAulas().json
+        params = {
+            "sil_per_aca" : "2020-B",
+        }
+        html = """
+            <head>
+            <style>
+            
+            #horario {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                margin-left: auto;
+                margin-right: auto;
+                width:90%;
+                table-layout:fixed;
+            }
+
+            #horario td, #horario th {
+                text-align: center;
+                font-size: 12px;
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #horario tr:nth-child(3){background-color: #909090 ; color: #FFFFFF;}
+            #horario tr:nth-child(6){background-color: #909090 ;color: #FFFFFF;}
+            #horario tr:nth-child(13){background-color: #909090 ;color: #FFFFFF;}
+            #horario tr:nth-child(16){background-color: #909090 ;color: #FFFFFF;}
+            #horario tr:nth-child(19){background-color: #909090 ;color: #FFFFFF;}
+
+            #horario thead {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #990537;
+                font-family: Arial;
+                font-size: 12px;
+                color: #FFFFFF;
+            }
+            </style>
+            </head>
+        """
+        for i in aulas:
+            params['aul_ide'] = i['aul_ide']
+            params['aul_nom'] = i['aul_nom']
+            html += "<div style= \"font-family: Arial;font-size: 20px;text-align: center;\">"+params['aul_nom']+"</div>"
+
+            columnas = ["LUNES","MARTES","MIERCOLES","JUEVES","VIERNES"]
+            
+            datos = self.get_schedule(params).json
+
+            info = self.horario_array(datos)
+            index = self.horario_index(datos)
+
+            new_info = []
+            for i in range(len(index)):
+                line = [index[i]]
+                for j in range(len(info[i])):
+                    line += [info[i][j]]
+                new_info += [line]
+            
+            df_1 = pd.DataFrame(info, columns=columnas,index = index)
+            tabletipe2 = df_1.to_html()
+            index = 0
+            for i in range(len(tabletipe2)):
+                if tabletipe2[i] == '>':
+                    index = i
+                    break
+            tabletipe2 = "<table id=\"horario\">" + tabletipe2[i+1:len(tabletipe2)]
+
+            html += "<div>"
+            html += tabletipe2
+            html += "</div>"
+
+        return html
