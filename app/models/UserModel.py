@@ -4,24 +4,34 @@ from .conexion import Conexion
 
 class UserModel:
 
-    def __init__ ( self ,app ):
-        self.conexion = Conexion(app)
+    def __init__ ( self ,conexion ):
+        self.conexion = conexion
     
     def login(self , params ) :
+        conn = self.conexion.getConexion()
+        cursor = conn.cursor()
         query = """
-                SELECT * FROM usuario 
-                WHERE usu_user = %(user)s and usu_pass = %(password)s 
+                select u.usu_ide,u.doc_ide,u.usu_user,u.usu_pass, a.usu_ide as admin  from usuario u
+                left join usuario_administrador a
+                on a.usu_ide = u.usu_ide
+                where u.usu_user = %(user)s and u.usu_pass = %(password)s ;
                 """
-        self.conexion.cursor.execute(query,params)
-        data_names = self.conexion.cursor.description
-        rv = self.conexion.cursor.fetchone()
-        if rv is None:
-            data = None
-        else:
-            data = {}
-            for i in range(len(rv)):
-                data[data_names[i][0]] = rv[i]
+        cursor.execute(query,params)
+        data_names = cursor.description
+        rv = cursor.fetchone()
+        data = {}
+        for i in range(len(data_names)):
+            data[data_names[i][0]] =  "None"
 
+        if rv is None:
+            rv = []
+        
+        for i in range(len(rv)):
+            data[data_names[i][0]] = rv[i]
+
+        print(data)
+        cursor.close()
+        conn.close()
         return jsonify(data)
 
     def register(self, params):

@@ -11,8 +11,10 @@ class Conexion:
         app.config[ 'MYSQL_DATABASE_DB'] = 'TI2'
         app.config[ 'MYSQL_DATABASE_HOST'] = '127.0.0.1'
         self.mysql.init_app(app)
-        self.conn = self.mysql.connect()
-        self.cursor = self.conn.cursor()
-        print("conecto")
+
+
+    def getConexion(self):
+        return self.mysql.connect()
+
 
     

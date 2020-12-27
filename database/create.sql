@@ -213,7 +213,7 @@ CREATE TABLE silabo_docente(
     gru_ide INT,
     FOREIGN KEY (doc_ide) REFERENCES docente(doc_ide),
     FOREIGN KEY (sil_ide) REFERENCES silabo(sil_ide),
-    FOREIGN KEY (gru_ide) REFERENCES grupo(gru_ide)
+    CONSTRAINT FOREIGN KEY (gru_ide) REFERENCES grupo(gru_ide) ON DELETE CASCADE
 );
 
 CREATE TABLE aula(

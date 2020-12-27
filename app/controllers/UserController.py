@@ -13,8 +13,8 @@ import click
 from flask.cli import with_appcontext
 
 class UserController:
-    def __init__(self,app):
-        self.model = UserModel(app)
+    def __init__(self,app,conexion):
+        self.model = UserModel(conexion)
 
         @app.route('/login', methods=['POST'])
         def login():
@@ -22,7 +22,6 @@ class UserController:
                 'user' : request.json['user'],
                 'password' : request.json['password']
             }
-
             return self.model.login(params)
         
         @app.route('/logout')

@@ -13,15 +13,15 @@ import click
 from flask.cli import with_appcontext
 
 class TeacherController:
-    def __init__(self,app):
-        self.model = TeacherModel(app)
+    def __init__(self,app,conexion):
+        self.model = TeacherModel(conexion)
 
-        @app.route('/teacher_schedule/<id>',methods=['POST'])
-        def teacher_schedule(id):
+        @app.route('/schedule_to_chose',methods=['POST'])
+        def schedule_to_chose():
             params = {
-                'id' : id
+                'id' : request.json['doc_ide']
             } 
-            return self.model.teacher_schedule(params)
+            return self.model.schedule_to_chose(params)
 
         @app.route('/assign_teacher',methods=['POST'])
         def assign_teacher():
@@ -46,6 +46,15 @@ class TeacherController:
                 
             return jsonify(self.model.unassign( params ) )
 
+        @app.route('/teacher_signature',methods=['POST'])
+        def teacher_signature():
+            params = {
+                'doc_ide' : request.json['doc_ide'],
+                'sil_ide' : request.json['sil_ide']
+            }
+                
+            return self.model.teacher_signature(params)
+
 
         @app.route('/register_teacher', methods=['POST'])
         def register_teacher():
@@ -59,3 +68,14 @@ class TeacherController:
                 'dep_ide' : request.json['dep_ide']
             }
             return self.model.register(params)
+
+        @app.route('/teachers',methods=['POST'])
+        def teachers():
+            return self.model.teachers()
+
+        @app.route('/teacher_info',methods=['POST'])
+        def teacherinfo():
+            params = {
+                'id' : request.json['id']
+            }
+            return self.model.teacher_info(params)
